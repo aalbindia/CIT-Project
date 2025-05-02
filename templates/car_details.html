@@ -46,7 +46,7 @@
         <p><span class="label">Brand:</span> {{ element.brand.name }}</p>
         <p><span class="label">Type:</span> {{ element.carType.name }}</p>
         <p><span class="label">Color:</span> {{ element.color }}</p>
-        <p><span class="label">Rate:</span> ${{ element.rate }} per day</p>
+        <p><span class="label">Rate:</span> ${{ "%.2f"|format(element.rate) }}</p>
         <p><span class="label">Campus Location:</span> {{ element.campus.name }}</p>
         <p><span class="label">Milage:</span> {{ element.milage }} km</p>
         <p>

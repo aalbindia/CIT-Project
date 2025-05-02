@@ -32,7 +32,7 @@
             <td>{{element.carType.name}}</td>
 
             <td>{{element.color}}</td>
-            <td>{{element.rate}}</td>
+            <td>${{"%.2f"|format(element.rate)}}</td>
             <td>{{element.campus.name}}</td>
             <td>{{element.milage}}</td>
             {% if element.rented == None %}
