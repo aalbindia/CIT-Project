@@ -7,3 +7,4 @@ Code pushed to this repo will be related to the Agile Development Project
 - Deliverables Submitted - Rachel
 - SCRUM master tasks completed & logo designed and added - Cole
 
+sprint1
