@@ -1,9 +1,6 @@
-# BCIT Car Rental Application
+# BCIT Car Rental Application Tests
 
-Code pushed to this repo will be related to the Agile Development Project
+Code Pushed to this branch will be focused on testing our functions and models
 
-## May 1, 2025
-- Sprint 1 complete 🎉
-- Deliverables Submitted - Rachel
-- SCRUM master tasks completed & logo designed and added - Cole
+
 
