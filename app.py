@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, flash
+from flask import Flask, render_template, url_for, redirect, flash, session
 from pathlib import Path
 #import datetime 
 from db import db
@@ -7,6 +7,7 @@ from models import *
 from flask import request
 
 app = Flask(__name__)
+app.secret_key = "abc123"
 
 # This will make Flask use a 'sqlite' database with the filename provided
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
@@ -64,13 +65,13 @@ def login_post():
     statement_login = db.select(User).where(User.email == email)
     result = db.session.execute(statement_login).scalar()
 
-    if result.password == password:
-        return render_template("profile.html", user = result)
-    else:
-        flash('Please check your login details and try again.')
-        return redirect(url_for('login'))
-
-    
+    if result:
+        if result.password == password:
+            session["user_id"] = result.id
+            return redirect(url_for("profile"))
+    flash('Please check your login details and try again.')
+    return redirect(url_for('login'))
+        
 
 @app.route("/signup")
 def signup():
@@ -85,12 +86,26 @@ def signup_post():
 
     return "pee"
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("You have been logged out.")
+    return redirect(url_for("login"))
+
+
 
 @app.route("/profile")
 def profile():
-
-
-    return "pee"
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for("login"))
+    
+    usr_stmt = db.select(User).where(User.id == user_id)
+    user = db.session.execute(usr_stmt).scalar()
+    if user:
+        return render_template("profile.html", user=user)
+    else:
+        return render_template("error.html")
 
 if __name__ == "__main__":
     app.run(debug=True, port=8888)

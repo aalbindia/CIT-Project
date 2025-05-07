@@ -19,10 +19,39 @@
           <li class="nav-item">
             <a class="nav-link {% if active_page == 'categories' %}active{% endif %}" href="/cars">Browse</a>
           </li>
+
+          <li class="nav-item">
+            {% if session.get("user_id") %}
+              <a class="nav-link" href="/profile">My Account</a>
+            {% endif %}
+
+          </li>
+
+
+          <li class="nav-item">
+            {% if session.get("user_id") %}
+              <a class="nav-link" href="/logout">Logout</a>
+            {% else %}
+              <a class="nav-link" href="/login">Login</a>
+            {% endif %}
+
+          </li>
+
+         
         </ul>
       </div>
     </div>
 </nav>
-<body style="background-color:#d7d0c8;"></body>
+<body 
+style="background-color:#d7d0c8;">
+{% with messages = get_flashed_messages()%}
+{% if messages%}
+    {% for message in messages%}
+    <p>{{message}}</p>
+    {%endfor%}
+    {%endif%}
+    {%endwith%}
+
+</body>
 
 {% block content %}{% endblock %}
