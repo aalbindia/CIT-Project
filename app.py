@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, flash
 from pathlib import Path
 #import datetime 
 from db import db
@@ -52,6 +52,45 @@ def rent_car(id):
    
     return render_template("car_details.html", element = result)
 
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/login", methods=["POST"])
+def login_post():
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    statement_login = db.select(User).where(User.email == email)
+    result = db.session.execute(statement_login).scalar()
+
+    if result.password == password:
+        return render_template("profile.html", user = result)
+    else:
+        flash('Please check your login details and try again.')
+        return redirect(url_for('login'))
+
+    
+
+@app.route("/signup")
+def signup():
+
+
+    return render_template("signup.html")
+
+
+@app.route("/signup", methods=["POST"])
+def signup_post():
+
+
+    return "pee"
+
+
+@app.route("/profile")
+def profile():
+
+
+    return "pee"
 
 if __name__ == "__main__":
     app.run(debug=True, port=8888)
