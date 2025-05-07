@@ -16,8 +16,10 @@ class Car(db.Model):
     campus = db.relationship("Campus", back_populates="cars")
     carType_id = db.mapped_column(db.Integer, db.ForeignKey("cartypes.id"))
     carType = db.relationship("CarType", back_populates="cars")
+
     
-    rented = db.mapped_column(db.DateTime, nullable=True, default=None)
+    
+    """rented = db.mapped_column(db.DateTime, nullable=True, default=None)
 
 
     def carRent(self):
@@ -27,6 +29,6 @@ class Car(db.Model):
     def carReturn(self):
         self.rented = None
         db.session.commit()
-
+ """
 
 
