@@ -35,10 +35,10 @@
             <td>${{"%.2f"|format(element.rate)}}</td>
             <td>{{element.campus.name}}</td>
             <td>{{element.milage}}</td>
-            {% if element.rented == None %}
-              <td> ✅ </td>
-            {% else %}
+            {% if element.rental %}
               <td> ❌ </td>
+            {% else %}
+              <td> ✅ </td>
             {% endif %}
 
 

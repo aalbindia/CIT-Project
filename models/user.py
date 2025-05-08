@@ -8,3 +8,5 @@ class User(db.Model):
     username = db.mapped_column(db.String, nullable=False, unique=True)
     email = db.mapped_column(db.String, nullable=False, unique=True)
     password = db.mapped_column(db.String, nullable=False)
+
+    rental = db.relationship("Rental", back_populates="user", uselist=False)

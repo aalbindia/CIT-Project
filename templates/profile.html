@@ -1,8 +1,47 @@
 {% extends "base_navbar.html" %}
 
 {% block content %}
-<p>User: {{ user }}</p>
 
-<p> {{ user.username }} </p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2 class="mb-4">User Profile</h2>
+            <div class="card p-4 shadow-sm">
+                <p><strong>Name:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+            </div>
+
+            {% if user.rental %}
+            <div class="card mt-4 p-4 shadow-sm" style="background-color: #f5ede4;">
+                <h4 class="mb-3">Current Rental</h4>
+                <img src="/static/images/default_car.jpg" class="img-fluid mb-3" alt="{{ user.rental.car.model }} image">
+                <h5>{{ user.rental.car.brand.name }} {{ user.rental.car.model }} ({{ user.rental.car.year }})</h5>
+
+                <p><strong>Brand:</strong> {{ user.rental.car.brand.name }}</p>
+                <p><strong>Type:</strong> {{ user.rental.car.carType.name }}</p>
+                <p><strong>Color:</strong> {{ user.rental.car.color }}</p>
+                <p><strong>Rate:</strong> ${{ "%.2f"|format(user.rental.car.rate) }}</p>
+                <p><strong>Campus Location:</strong> {{ user.rental.car.campus.name }}</p>
+                <p><strong>Milage:</strong> {{ user.rental.car.milage }} km</p>
+
+                <p>
+                    <strong>Availability:</strong>
+                    {% if user.rental.car.rental == None %}
+                        Available
+                    {% else %}
+                        Unavailable
+                    {% endif %}
+                </p>
+
+                <form action="{{ url_for('profile_post', user=user) }}" method="post">
+                    <button class="btn btn-danger mt-2" type="submit">Return Car</button>
+                </form>
+            </div>
+            {% else %}
+                <p class="mt-4 text-muted">You have no current rentals.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
 {% endblock %}

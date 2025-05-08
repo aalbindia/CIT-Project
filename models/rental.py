@@ -7,9 +7,10 @@ class Rental(db.Model):
     id = db.mapped_column(db.Integer, primary_key=True)
     
     car_id = db.mapped_column(db.Integer, db.ForeignKey("cars.id"))
-    car = db.relationship("Car")
+    car = db.relationship("Car", back_populates='rental')
+    
     user_id = db.mapped_column(db.Integer, db.ForeignKey("users.id"))
-    user = db.relationship("User")
+    user = db.relationship("User", back_populates='rental')
 
     start_date = db.mapped_column(db.DateTime, nullable=False)
     return_date = db.mapped_column(db.DateTime, nullable=True, default=None)

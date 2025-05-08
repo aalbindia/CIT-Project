@@ -46,12 +46,21 @@ def rent_car(id):
     if not result:
         return render_template("error.html", message="order not found"), 404
     
-    if not result.rented:
-        result.carRent()
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for("login"))
+    
+    usr_stmt = db.select(User).where(User.id == user_id)
+    user = db.session.execute(usr_stmt).scalar()
+    if user:
+        result.makeRental(user)
+        return render_template("car_details.html", element = result)
     else:
-        result.carReturn()
+        return render_template("error.html")
+
+ 
    
-    return render_template("car_details.html", element = result)
+    
 
 @app.route("/login")
 def login():
@@ -106,6 +115,24 @@ def profile():
         return render_template("profile.html", user=user)
     else:
         return render_template("error.html")
+
+
+@app.route("/profile",  methods=["POST"])
+def profile_post():
+    user_id = session.get("user_id")
+    if not user_id:
+        return redirect(url_for("login"))
+    
+    usr_stmt = db.select(User).where(User.id == user_id)
+    user = db.session.execute(usr_stmt).scalar()
+    if user:
+        user.rental.car.removeRental(user)
+        return render_template("profile.html", user=user)
+    else:
+        return render_template("error.html")
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8888)

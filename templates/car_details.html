@@ -51,18 +51,16 @@
         <p><span class="label">Milage:</span> {{ element.milage }} km</p>
         <p>
             <span class="label">Availability:</span>
-            {% if element.rented == None %}
+            {% if element.rental == None %}
                 Available
                 <br>
                 <form action="{{ url_for('rent_car', id=element.id) }}" method="post">
                     <button type="submit">Rent</button>
                 </form>
             {% else %}
-                Date rented: {{ element.rented.strftime('%B %d, %Y at %I:%M %p') }}
+                Unavailable
                 <br>
-                <form action="{{ url_for('rent_car', id=element.id) }}" method="post">
-                    <button type="submit">Return</button>
-                </form>
+               
             {% endif %}
         </p>
     </div>
