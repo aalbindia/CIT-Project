@@ -24,12 +24,27 @@ def home():
 
 @app.route("/cars")
 def cars():
+    sort = request.args.get("sort", "name")
+    order = request.args.get("order", "asc")
 
     statement_car = db.select(Car)
 
+
+    if sort == "rate": 
+        statement_car = statement_car.order_by(Car.rate.desc() if order == "desc" else Car.rate.asc())
+    elif sort == "type": 
+        statement_car = statement_car.join(Car.carType).order_by(CarType.name.desc() if order == "desc" else CarType.name.asc())
+    elif sort == "location": 
+        statement_car = statement_car.join(Car.campus).order_by(
+        Campus.name.desc() if order == "desc" else Campus.name.asc()
+    )
+
+
+
+
     results = db.session.execute(statement_car)
 
-    return render_template("cars.html", my_list= [prod for prod in results.scalars()])
+    return render_template("cars.html", my_list= [prod for prod in results.scalars()], sort_by=sort, order=order)
 
 @app.route("/cars/<int:id>")
 def car_details(id):
@@ -52,7 +67,14 @@ def rent_car(id):
     
     usr_stmt = db.select(User).where(User.id == user_id)
     user = db.session.execute(usr_stmt).scalar()
+
+
     if user:
+        active_rental_stmt = db.select(Rental).where(Rental.user_id == user.id, Rental.return_date == None)
+        active_rental = db.session.execute(active_rental_stmt).scalar()
+        if active_rental:
+            flash("You already have an active rental. Return it before renting another car.")
+            return render_template("car_details.html", element=result)
         result.makeRental(user)
         return render_template("car_details.html", element = result)
     else:
