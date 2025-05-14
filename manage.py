@@ -1,5 +1,5 @@
 from db import db
-from models import Car, Campus, Brand, CarType
+from models import Car, Campus, Brand, CarType, User, Rental
 import sys
 from app import app
 import csv
@@ -43,8 +43,14 @@ def readData():
             
 
             db.session.add(car)
+    
+    with open("customers.csv", 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            user = User(username=row["name"], email=row["email"], password=row["password"])
+            db.session.add(user)
 
-        db.session.commit()
+    db.session.commit()
 
 def refresh():
     delDB()

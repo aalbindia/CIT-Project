@@ -1,5 +1,6 @@
 from db import db
 from datetime import datetime
+from .rental import Rental
 
 class Car(db.Model):
     __tablename__ = "cars"
@@ -16,8 +17,11 @@ class Car(db.Model):
     campus = db.relationship("Campus", back_populates="cars")
     carType_id = db.mapped_column(db.Integer, db.ForeignKey("cartypes.id"))
     carType = db.relationship("CarType", back_populates="cars")
+
+    rental = db.relationship("Rental", uselist=False)
     
-    rented = db.mapped_column(db.DateTime, nullable=True, default=None)
+    
+    """rented = db.mapped_column(db.DateTime, nullable=True, default=None)
 
 
     def carRent(self):
@@ -27,6 +31,15 @@ class Car(db.Model):
     def carReturn(self):
         self.rented = None
         db.session.commit()
-
-
+ """
+    
+    def makeRental(self, user):
+        rental = Rental(car_id=self.id, user_id=user.id, start_date=datetime.now())
+        db.session.add(rental)
+        db.session.commit()
+    def removeRental(self, user):
+        statement = db.select(Rental).where(Rental.car_id == self.id)
+        rental = db.session.execute(statement).scalar()
+        db.session.delete(rental)
+        db.session.commit()
 
