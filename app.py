@@ -4,10 +4,15 @@ from pathlib import Path
 from db import db
 from models import *
 
+
+from auth_decorator import login_required
+
 from flask import request
 
+from dotenv import load_dotenv
+load_dotenv()
+
 app = Flask(__name__)
-app.secret_key = "abc123"
 
 # This will make Flask use a 'sqlite' database with the filename provided
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
