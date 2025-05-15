@@ -1,16 +1,20 @@
-
 {% extends "base_navbar.html" %}
 
 {% block content %}
 
-<ul>
-    <h3> Welcome!</h3>
-    
-    <p> This is the home page.</p>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 
-    
+<section class="hero-section">
+    <div class="hero-content container has-text-centered">
+        <h1 class="hero-title"></h1>
+        <a href="/rent" class="button is-primary is-large"></a>
+    </div>
+</section>
 
-  
-</ul>
+<section class="cta-section has-text-centered">
+    <h2>Ready for students, staff members and all public</h2>
+    <p>Rent your eco-friendly car today!</p>
+    <a href="/signup" class="button is-success is-medium">Get Started</a>
+</section>
 
 {% endblock %}
