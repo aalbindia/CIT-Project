@@ -1,44 +1,92 @@
-
 {% extends "base_navbar.html" %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/car_details.css') }}">
 
 <head>
     <meta charset="UTF-8">
     <title>{{ element.model }} Details</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-          
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f0ff; 
+            color: #003366; 
+            margin: 0;
+            padding: 0;
         }
+    
         .car-info {
-            max-width: 600px;
-            margin: auto;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            max-width: 700px;
+            margin: 2rem auto;
+            background-color: #fffde7; 
+            border: 1px solid #4caf50; 
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            color: #003366; 
         }
+    
         .car-info h2 {
             margin-bottom: 1rem;
-            color: #333;
+            color: #003366; 
+            font-weight: 600;
         }
+    
         .car-info img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #4caf50; 
         }
+    
         .car-info p {
             margin: 0.5rem 0;
+            font-size: 1rem;
         }
+    
         .label {
             font-weight: bold;
+            color: #004080; 
         }
-    </style>
+    
+        .btn-secondary {
+            background-color: #003366; 
+            color: #ffcc00; 
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+    
+        .btn-secondary:hover {
+            background-color: #004080; 
+            color: #fff; 
+            text-decoration: none;
+        }
+    
+        button[type="submit"] {
+            background-color: #4caf50; 
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+    
+        button[type="submit"]:hover {
+            background-color: #388e3c; 
+        }
+    </style>    
 </head>
 <body>
-    <div class="car-info" style="background-color:#f5ede4;">
+    <div class="car-info">
         <a href="{{ url_for('cars') }}" class="btn btn-secondary">← Back</a>
 
         <img src='/static/images/default_car.jpg' alt="{{ element.model }} image">
@@ -48,7 +96,7 @@
         <p><span class="label">Color:</span> {{ element.color }}</p>
         <p><span class="label">Rate:</span> ${{ "%.2f"|format(element.rate) }}</p>
         <p><span class="label">Campus Location:</span> {{ element.campus.name }}</p>
-        <p><span class="label">Milage:</span> {{ element.milage }} km</p>
+        <p><span class="label">Mileage:</span> {{ element.milage }} km</p>
         <p>
             <span class="label">Availability:</span>
             {% if element.rental == None %}
@@ -60,7 +108,6 @@
             {% else %}
                 Unavailable
                 <br>
-               
             {% endif %}
         </p>
     </div>

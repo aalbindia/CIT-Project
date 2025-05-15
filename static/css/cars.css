@@ -1,0 +1,64 @@
+body {
+    background-color: #e6f0ff; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #003366; 
+}
+
+h4 {
+    margin-top: 1.5rem;
+    margin-left: 1rem;
+    color: #003366; 
+}
+
+.btn-outline-primary {
+    border-color: #003366; 
+    color: #003366;
+    margin: 0.3rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ffcc00; 
+    color: #003366; 
+}
+
+.table {
+    background-color: #fffde7; 
+    margin: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    color: #003366;
+}
+
+.table th {
+    background-color: #4caf50; 
+    color: #fff; 
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table td {
+    vertical-align: middle;
+    text-align: center;
+    color: #003366; 
+}
+
+.table-hover tbody tr:hover {
+    background-color: #c8e6c9; 
+}
+
+.btn-success.btn-sm {
+    background-color: #003366; 
+    border-color: #00264d;
+    font-weight: 600;
+    color: #ffcc00; 
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-success.btn-sm:hover {
+    background-color: #00264d; 
+    border-color: #001a33;
+    color: #fff;
+}

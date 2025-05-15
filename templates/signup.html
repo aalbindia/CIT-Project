@@ -1,6 +1,8 @@
 {% extends "base_navbar.html" %}
+
 {% block content %}
-<div class="column is-4 is-offset-4">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+<div class="signup-container">
     <h3 class="title">Sign Up</h3>
     <div class="box">
         <form method="POST" action="/signup">
@@ -12,7 +14,7 @@
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="">
+                    <input class="input is-large" type="text" name="name" placeholder="Name">
                 </div>
             </div>
 

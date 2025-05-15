@@ -1,0 +1,28 @@
+.home-container {
+  background-color: #e6f4ea; 
+  border: 2px solid #a5d6a7;
+  text-align: center;
+  padding: 60px 20px;
+  border-radius: 15px;
+  margin: 40px auto;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.home-container h3 {
+  font-size: 2.5em;
+  color: #2e7d32; 
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.home-container p {
+  font-size: 1.3em;
+  color: #1b5e20; 
+}
+
+
+
+
+
+  
