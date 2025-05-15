@@ -1,15 +1,9 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 80vh; 
+  min-height: 80vh;
   padding: 30px;
   background: linear-gradient(to right, #a5d6a7, #81d4fa);
 }
@@ -19,6 +13,7 @@ html, body {
   margin-bottom: 25px;
   color: #1b5e20;
   font-weight: bold;
+  text-align: center;
 }
 
 .login-box {
@@ -28,45 +23,39 @@ html, body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  box-sizing: border-box;
-  transform: translateX(200px);
-}
-
-.login-box .field {
-  margin-bottom: 20px;
 }
 
 .login-box .input {
+  margin-bottom: 15px;
   width: 100%;
-  padding: 10px 12px;
-  font-size: 1.1rem;
-  border-radius: 6px;
+  padding: 0.75rem;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  box-sizing: border-box;
+  border-radius: 8px;
 }
 
 .login-box .remember-me {
   margin-top: 10px;
   text-align: left;
   font-size: 0.9rem;
-  color: #333;
+  color: #555;
 }
 
 .login-box .button {
-  width: 100%;
-  padding: 12px;
-  background-color: #1b5e20;
+  background-color: #388e3c;
   color: white;
   font-size: 1.1rem;
   font-weight: bold;
-  border: none;
+  padding: 0.75rem;
   border-radius: 6px;
-  cursor: pointer;
+  width: 100%;
+  border: none;
+  margin-top: 20px;
   transition: background-color 0.3s ease;
 }
 
 .login-box .button:hover {
-  background-color: #145014;
+  background-color: #2e7d32;
 }
 
   

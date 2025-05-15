@@ -1,32 +1,31 @@
 {% extends "base_navbar.html" %}
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
 <div class="login-container">
     <h3 class="title">Login</h3>
     <div class="login-box">
         <form method="POST" action="/login">
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus>
+                    <input class="input" type="email" name="email" placeholder="Email" required>
                 </div>
             </div>
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
+                    <input class="input" type="password" name="password" placeholder="Password" required>
                 </div>
             </div>
 
-            <div class="field remember-me">
-                <label class="checkbox">
+            <div class="remember-me">
+                <label>
                     <input type="checkbox" name="remember"> Remember me
                 </label>
             </div>
 
-            <button class="button is-block is-large is-fullwidth">Login</button>
+            <button class="button is-fullwidth">Log In</button>
         </form>
     </div>
 </div>
