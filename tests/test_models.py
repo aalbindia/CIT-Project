@@ -1,5 +1,5 @@
 import pytest
-from models import User, Car, Brand, Campus, CarType, db
+from my_models import User, Car, Brand, Campus, CarType, db
 
 def test_user(app):
     with app.app_context():

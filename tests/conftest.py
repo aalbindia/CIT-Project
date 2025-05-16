@@ -1,9 +1,9 @@
 import sys
 import os
-sys.modules.pop("models", None)
+sys.modules.pop("my_models", None)
 import pytest
 from app import create_app
-from models import db
+from db import db
 
 @pytest.fixture
 def app():

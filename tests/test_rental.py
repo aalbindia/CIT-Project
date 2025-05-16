@@ -1,5 +1,5 @@
 import pytest
-from models import User, Rental, Car 
+from my_models import User, Rental, Car
 
 def test_rental():
     user = User(username = "r", email = "r@example.com", password = "123")
