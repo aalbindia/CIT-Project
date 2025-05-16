@@ -1,6 +1,6 @@
 Flask==2.3.3
 Werkzeug==2.3.7
-SQLAlchemy==2.0.20
+SQLAlchemy==2.0.15
 Flask-SQLAlchemy==3.0.5
 pytest==7.4.0
 flake8==6.1.0
