@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from my_models.rental import Rental
+from my_models import Rental
 
 def validate_start_date(start_date):
     if start_date > datetime.now():

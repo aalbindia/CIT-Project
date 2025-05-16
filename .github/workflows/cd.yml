@@ -2,8 +2,8 @@ name: Continuous Deployment
 
 on:
   push:
-    branches: [ main, devmain ]
-  workflow_dispatch:  # Allows manual triggering
+    branches: [ main ]
+  workflow_dispatch:  
 
 jobs:
   deploy:

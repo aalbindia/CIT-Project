@@ -1,6 +1,3 @@
-import sys
-import os
-sys.modules.pop("my_models", None)
 import pytest
 from app import create_app
 from db import db
