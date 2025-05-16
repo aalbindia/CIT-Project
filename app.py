@@ -1,22 +1,28 @@
 from flask import Flask, render_template, url_for, redirect, flash, session
 from pathlib import Path
-#import datetime 
 from db import db
-from models import *
-
+from my_models import db, User, Car, Rental, Brand, Campus, CarType
+from auth_decorator import login_required
 from flask import request
+from dotenv import load_dotenv
+load_dotenv()
 
-app = Flask(__name__)
-app.secret_key = "abc123"
+def create_app(config_name='default'):
+    app = Flask(__name__)
+    
+    if config_name == 'testing':
+        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+        app.config["TESTING"] = True
+    else:
+        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+    
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.instance_path = Path(".").resolve()
+    db.init_app(app)
+    
+    return app
 
-# This will make Flask use a 'sqlite' database with the filename provided
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-
-
-# This will make Flask store the database file in the path provided
-app.instance_path = Path(".").resolve()
-
-db.init_app(app)
+app = create_app()
 
 @app.route("/")
 def home():

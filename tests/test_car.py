@@ -13,7 +13,6 @@ class Campus:
             raise TypeError("Campus location must be a string.")
         self.location = location
 
-
 class CarType:
     def __init__(self, type_name):
         self.type_name = type_name
@@ -36,7 +35,6 @@ class Car:
             raise TypeError("Campus must be a Campus object.")
         if not isinstance(carType, CarType):
             raise TypeError("CarType must be a CarType object.")
-        
         self.model = model
         self.year = year
         self.color = color
@@ -46,26 +44,20 @@ class Car:
         self.campus = campus
         self.carType = carType
 
+def test_brand():
+    brand = Brand(name="Toyota")
+    assert brand.name == "Toyota"
+    assert isinstance(brand.name, str)
 
-def test_invalid_brand():
-    with pytest.raises(TypeError):
-        Brand(name=123)  
+def test_campus():
+    campus = Campus(location="Burnaby")
+    assert campus.location == "Burnaby"
+    assert isinstance(campus.location, str)
 
-
-def test_invalid_campus():
-    with pytest.raises(TypeError):
-        Campus(location=123)  
-
-
-def test_invalid_car():
-    brand = Brand(name="Ford")
-    campus = Campus(location="Uptown")
-    carType = CarType(type_name="SUV")
-    
-    with pytest.raises(TypeError):
-        Car(model=123, year="2020", color=None, milage="lots", rate="cheap", brand=brand, campus=campus, carType=carType)
-
-
+def test_car():
+    brand = Brand(name="Honda")
+    campus = Campus(location="Downtown")
+    carType = CarType(type_name="Sedan")
     car = Car(
         model="Civic",
         year=2020,
@@ -76,7 +68,6 @@ def test_invalid_car():
         campus=campus,
         carType=carType
     )
-
     assert car.model == "Civic"
     assert isinstance(car.color, str)
     assert isinstance(car.year, int)
@@ -88,21 +79,20 @@ def test_invalid_car():
 
 def test_invalid_brand():
     with pytest.raises(TypeError):
-        brand = Brand(name=123)
+        Brand(name=123)
 
 def test_invalid_campus():
     with pytest.raises(TypeError):
-        campus = Campus(location=456)
+        Campus(location=456)
 
 def test_invalid_car():
     brand = Brand(name="Ford")
     campus = Campus(location="Uptown")
     carType = CarType(type_name="SUV")
-
     with pytest.raises(TypeError):
-        car = Car(
+        Car(
             model="Explorer",
-            year="2021",  
+            year="2021",
             color="Red",
             milage=25000,
             rate=55.0,
@@ -110,6 +100,3 @@ def test_invalid_car():
             campus=campus,
             carType=carType
         )
-
-
-   

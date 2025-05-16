@@ -21,17 +21,6 @@ class Car(db.Model):
     rental = db.relationship("Rental", uselist=False)
     
     
-    """rented = db.mapped_column(db.DateTime, nullable=True, default=None)
-
-
-    def carRent(self):
-        self.rented = datetime.now()
-        db.session.commit()
-    
-    def carReturn(self):
-        self.rented = None
-        db.session.commit()
- """
     
     def makeRental(self, user):
         rental = Rental(car_id=self.id, user_id=user.id, start_date=datetime.now())
