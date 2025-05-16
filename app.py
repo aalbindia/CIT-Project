@@ -1,24 +1,25 @@
 from flask import Flask, render_template, url_for, redirect, flash, session, request
 from pathlib import Path
 from db import db
-from my_models import User, Car, Rental, Brand, Campus, CarType
+from my_models import User, Car, Rental, Brand, Campus, CarType  # ✅ now safe
 from auth_decorator import login_required
 from dotenv import load_dotenv
 load_dotenv()
 
 def create_app(config_name='default'):
     app = Flask(__name__)
-    
     if config_name == 'testing':
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
         app.config["TESTING"] = True
     else:
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-    
+
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.instance_path = Path(".").resolve()
+
     db.init_app(app)
-    
+
+
     return app
 
 app = create_app()
