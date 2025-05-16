@@ -196,15 +196,14 @@ def github_authorize():
 
     name = user_info.get("name") or user_info.get("login")
 
-    # Check/create user in DB
     statement = db.select(User).where(User.email == email)
     user = db.session.execute(statement).scalar()
     if not user:
-        user = User(email=email, name=name, password="oauth")
+        newuser = User(email=email, name=name, password="oauth")
         db.session.add(user)
         db.session.commit()
 
-    session["user_id"] = user.id
+    session["user_id"] = newuser.id
     session.permanent = True
     return redirect(url_for("profile"))
 
@@ -218,9 +217,26 @@ def signup():
 
 @app.route("/signup", methods=["POST"])
 def signup_post():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    name = request.form.get("name")
 
+    statement_login = db.select(User).where(User.email == email)
+    result = db.session.execute(statement_login).scalar()
 
-    return "pee"
+    if not result:
+        
+        newuser = User(username=name, email=email, password=password)
+        db.session.add(newuser)
+        db.session.commit()
+
+        session["user_id"] = newuser.id
+        session.permanent = True
+
+        return redirect(url_for("profile"))
+    flash('A user with that email already exists.')
+    return redirect(url_for('signup'))
+
 
 @app.route("/logout")
 def logout():
