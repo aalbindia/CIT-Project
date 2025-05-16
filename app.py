@@ -5,6 +5,7 @@ import os
 from db import db
 from models import *
 from datetime import timedelta
+import random
 
 
 
@@ -162,8 +163,10 @@ def google_authorize():
     user = db.session.execute(statement).scalar()
 
     if not user:
+        chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        random_string = ''.join(random.choices(chars, k=10))
         name = user_info["name"]
-        user = User(email=email, password="googleoauth", username=name)  # or a placeholder
+        user = User(email=email, password=random_string, username=name)
         db.session.add(user)
         db.session.commit()
 
@@ -181,13 +184,11 @@ def github_login():
 @app.route("/github-authorize")
 def github_authorize():
     token = github.authorize_access_token()
-    resp = github.get("user")  # basic profile info
+    resp = github.get("user")  
     user_info = resp.json()
 
-    # GitHub may return email here or you may need a separate request
     email = user_info.get("email")
     if not email:
-        # Fetch public/private emails
         email_resp = github.get("user/emails")
         emails = email_resp.json()
         primary_emails = [e for e in emails if e.get("primary") and e.get("verified")]
@@ -199,7 +200,10 @@ def github_authorize():
     statement = db.select(User).where(User.email == email)
     user = db.session.execute(statement).scalar()
     if not user:
-        user = User(email=email, name=name, password="oauth")
+        chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+        random_string = ''.join(random.choices(chars, k=10))
+
+        user = User(email=email, name=name, password=random_string)
         db.session.add(user)
         db.session.commit()
 
