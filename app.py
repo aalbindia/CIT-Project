@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, flash, session, request
 from pathlib import Path
 from db import db
-from my_models import User, Car, Rental, Brand, Campus, CarType  
+from my_models import Car, Rental, Campus, CarType, User
 from auth_decorator import login_required
 from dotenv import load_dotenv
 load_dotenv()
