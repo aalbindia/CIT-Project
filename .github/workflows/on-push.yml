@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ] #Demo CI/CD workflow
+    branches: [ main ] #Demo CI/CD workflow, example
 
 jobs:
   build:
