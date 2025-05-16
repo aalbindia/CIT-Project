@@ -1,3 +1,6 @@
+import sys
+import os
+sys.modules.pop("models", None)
 import pytest
 from app import create_app
 from models import db
