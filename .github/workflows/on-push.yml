@@ -30,4 +30,4 @@ jobs:
           FLASK_ENV: testing
           FLASK_APP: app
           PYTHONPATH: ${{ github.workspace }}
-        run: pytest 
+        run: py -m pytest 
