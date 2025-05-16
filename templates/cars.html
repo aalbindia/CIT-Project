@@ -1,7 +1,8 @@
-
 {% extends "base_navbar.html" %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cars.css') }}">
 
 <h4>Sort by:</h1> <a href="/cars?sort=rate&order=desc" class="btn  btn-outline-primary"> Rate</a>  
   <a href="/cars?sort=type&order=desc" class="btn  btn-outline-primary"> Type</a> 

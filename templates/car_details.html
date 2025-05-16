@@ -35,6 +35,22 @@
         .label {
             font-weight: bold;
         }
+        .rental {
+            display: inline-block;
+            margin: 0.3rem 0.5rem;
+            padding: 5px;
+            border: 2px solid #003366;
+            border-radius: 6px;
+            color: #2f3e2e;
+            text-decoration: none;
+            background-color: #fafff4;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .rental:hover {
+            background-color: #003366;
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -55,7 +71,7 @@
                 Available
                 <br>
                 <form action="{{ url_for('rent_car', id=element.id) }}" method="post">
-                    <button type="submit">Rent</button>
+                    <button class="rental" type="submit">Rent</button>
                 </form>
             {% else %}
                 Unavailable
