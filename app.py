@@ -199,11 +199,11 @@ def github_authorize():
     statement = db.select(User).where(User.email == email)
     user = db.session.execute(statement).scalar()
     if not user:
-        newuser = User(email=email, name=name, password="oauth")
+        user = User(email=email, name=name, password="oauth")
         db.session.add(user)
         db.session.commit()
 
-    session["user_id"] = newuser.id
+    session["user_id"] = user.id
     session.permanent = True
     return redirect(url_for("profile"))
 
