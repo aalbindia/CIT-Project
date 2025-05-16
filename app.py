@@ -1,14 +1,9 @@
 from flask import Flask, render_template, url_for, redirect, flash, session
 from pathlib import Path
-#import datetime 
 from db import db
 from models import *
-
-
 from auth_decorator import login_required
-
 from flask import request
-
 from dotenv import load_dotenv
 load_dotenv()
 
