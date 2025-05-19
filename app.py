@@ -18,7 +18,7 @@ load_dotenv()
 app = Flask(__name__)
 
 app.secret_key = os.getenv("APP_SECRET_KEY")
-#app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
+
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
 # This will make Flask use a 'sqlite' database with the filename provided
@@ -65,7 +65,7 @@ def home():
 
 @app.route("/cars")
 def cars():
-    sort = request.args.get("sort", "name")
+    sort = request.args.get("sort", "type")
     order = request.args.get("order", "asc")
 
     statement_car = db.select(Car)
@@ -138,10 +138,12 @@ def login_post():
     result = db.session.execute(statement_login).scalar()
 
     if result:
+   
         if result.password == password:
             session["user_id"] = result.id
             return redirect(url_for("profile"))
-    flash('Please check your login details and try again.')
+    
+    flash('Please check your login details and try again.', "danger")
     return redirect(url_for('login'))
         
 
