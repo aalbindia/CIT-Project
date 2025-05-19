@@ -2,9 +2,11 @@ name: Python CI
 
 on:
   push:
-    branches: [ main, devmain ]
+    branches: 
+      - main
   pull_request:
-    branches: [ main, devmain ]
+    branches: 
+      - main
 
 jobs:
   build:
@@ -31,3 +33,4 @@ jobs:
           FLASK_APP: app
           PYTHONPATH: ${{ github.workspace }}
         run: pytest 
+

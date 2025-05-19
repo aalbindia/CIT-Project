@@ -1,5 +1,5 @@
 import pytest
-from my_models import User
+
 
 def validate_email(email):
     if "@" not in email or "." not in email.split("@")[-1]:

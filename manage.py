@@ -1,5 +1,5 @@
 from db import db
-from models import Car, Campus, Brand, CarType, User, Rental
+from my_models import Car, Campus, Brand, CarType, User, Rental
 import sys
 from app import app
 import csv
