@@ -2,28 +2,8 @@
 
 
 {% block content %}
-
-<div class="container mt-3">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-              {{ message }}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
-    </div>
-  </div>
-</div>
-
 <div class="container has-text-centered">
-    <div style="margin-left: 40%;">
+    <div class="column is-4 is-offset-4">
         <h3 class="title">Login</h3>
         <div class="box">
             <form method="POST" action="/login">
@@ -46,12 +26,6 @@
                 </div>
                 <button class="button is-block is-info is-large is-fullwidth">Login</button>
             </form>
-            <p>Or</p>
-            <a href="{{ url_for('google_login') }}">Login with Google</a>
-            <p></p>
-            <a href="{{ url_for('github_login') }}">Login with GitHub</a>
-            <p></p>
-            <a href="{{ url_for('signup') }}">Sign up</a>
         </div>
     </div>
 </div>
