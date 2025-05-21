@@ -1,16 +1,41 @@
+{% extends "base_navbar.html" %} {% block content %}
 
-{% extends "base_navbar.html" %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/home.css') }}"
+/>
 
-{% block content %}
+<section class="hero-section">
+  <div class="hero-content container has-text-centered">
+    <h1 class="hero-title"></h1>
+    <a href="/rent" class="button is-primary is-large"></a>
+  </div>
+</section>
 
-<ul>
-    <h3> Welcome!</h3>
-    
-    <p> This is the home page.</p>
+<section class="features-section container">
+  <div class="columns is-multiline">
+    <div class="column is-one-third feature-card">
+      <div class="feature-icon">🚗</div>
+      <h3>Electric & Hybrid Fleet</h3>
+      <p>Choose from a range of eco-conscious vehicles for every need.</p>
+    </div>
+    <div class="column is-one-third feature-card">
+      <div class="feature-icon">🌿</div>
+      <h3>Carbon Offset Included</h3>
+      <p>Your trip contributes to reforestation and clean energy projects.</p>
+    </div>
+    <div class="column is-one-third feature-card">
+      <div class="feature-icon">📍</div>
+      <h3>Convenient Locations</h3>
+      <p>Pick up and drop off from any BCIT campus.</p>
+    </div>
+  </div>
+</section>
 
-    
-
-  
-</ul>
+<section class="cta-section has-text-centered">
+  <h2>Ready for students, staff members and the general public</h2>
+  <p>Rent your eco-friendly car today!</p>
+  <a href="/signup" class="button is-success is-medium">Get Started</a>
+</section>
 
 {% endblock %}

@@ -1,69 +1,111 @@
-
-{% extends "base_navbar.html" %}
-
-{% block content %}
+{% extends "base_navbar.html" %} {% block content %}
 
 <head>
-    <meta charset="UTF-8">
-    <title>{{ element.model }} Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-          
-        }
-        .car-info {
-            max-width: 600px;
-            margin: auto;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
-        }
-        .car-info h2 {
-            margin-bottom: 1rem;
-            color: #333;
-        }
-        .car-info img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-        .car-info p {
-            margin: 0.5rem 0;
-        }
-        .label {
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>{{ element.model }} Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .car-info {
+      max-width: 600px;
+      margin: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+    .car-info h2 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    .car-info img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .car-info p {
+      margin: 0.5rem 0;
+    }
+    .label {
+      font-weight: bold;
+    }
+    .rental {
+      display: inline-block;
+      margin: 0.3rem 0.5rem;
+      padding: 5px;
+      border: 2px solid #f5f6f7;
+      border-radius: 6px;
+      color: #2f3e2e;
+      text-decoration: none;
+      background-color: #fafff4;
+      font-weight: 500;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .rental:hover {
+      background-color: #2f3e2e;
+      color: #ffffff;
+    }
+  </style>
 </head>
 <body>
-    <div class="car-info" style="background-color:#f5ede4;">
-        <a href="{{ url_for('cars') }}" class="btn btn-secondary">← Back</a>
+  <div class="car-info" style="background-color: #f5ede4">
+    <a href="{{ url_for('cars') }}" class="btn btn-secondary">← Back</a>
 
-        <img src='/static/images/default_car.jpg' alt="{{ element.model }} image">
-        <h2>{{ element.brand.name }} {{ element.model }} ({{ element.year }})</h2>
-        <p><span class="label">Brand:</span> {{ element.brand.name }}</p>
-        <p><span class="label">Type:</span> {{ element.carType.name }}</p>
-        <p><span class="label">Color:</span> {{ element.color }}</p>
-        <p><span class="label">Rate:</span> ${{ "%.2f"|format(element.rate) }}</p>
-        <p><span class="label">Campus Location:</span> {{ element.campus.name }}</p>
-        <p><span class="label">Milage:</span> {{ element.milage }} km</p>
-        <p>
-            <span class="label">Availability:</span>
-            {% if element.rental == None %}
-                Available
-                <br>
-                <form action="{{ url_for('rent_car', id=element.id) }}" method="post">
-                    <button type="submit">Rent</button>
-                </form>
-            {% else %}
-                Unavailable
-                <br>
-               
-            {% endif %}
-        </p>
+    <img src="/static/images/default_car.jpg" alt="{{ element.model }} image" />
+    <h2>{{ element.brand.name }} {{ element.model }} ({{ element.year }})</h2>
+    <p><span class="label">Brand:</span> {{ element.brand.name }}</p>
+    <p><span class="label">Type:</span> {{ element.carType.name }}</p>
+    <p><span class="label">Color:</span> {{ element.color }}</p>
+    <p><span class="label">Rate:</span> ${{ "%.2f"|format(element.rate) }}</p>
+    <p><span class="label">Campus Location:</span> {{ element.campus.name }}</p>
+    <p><span class="label">Milage:</span> {{ element.milage }} km</p>
+    <!-- <div
+      style="
+        border-radius: 5px;
+        background-color: #dcedc8;
+        color: #33691e;
+        padding: 1.5rem;
+        margin: auto;
+      "
+    >
+      <span class="label">Availability:</span>
+
+      {% if element.rental == None %} Available
     </div>
+    <br />
+    <form action="{{ url_for('rent_car', id=element.id) }}" method="post">
+      <button class="rental" type="submit">Rent</button>
+    </form>
+    {% else %} Unavailable
+    <br />
+
+    {% endif %}
+  </div> -->
+
+
+  {% if element.rental == None %}
+    <p style="border-radius: 5px;
+              background-color: #dcedc8;
+              color: #33691e;
+              padding: 1rem;
+              margin-top: 0.5rem;">
+        <span class="label">Availability:</span> Available
+    </p>
+    <form action="{{ url_for('rent_car', id=element.id) }}" method="post">
+      <button class="rental" type="submit">Rent</button>
+    </form>
+{% else %}
+    <p style="border-radius: 5px;
+              background-color: #dcedc8;
+              color: #33691e;
+              padding: 1rem;
+              margin-top: 0.5rem;">
+        <span class="label">Availability:</span> Unavailable
+    </p>
+{% endif %}
+
 </body>
 
 {% endblock %}
