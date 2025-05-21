@@ -7,14 +7,14 @@ body {
 }
 
 .navbar {
-  background-color: #2e7d32;
+  background-color: #3e423e;
   padding: 0.8rem 1rem;
 }
 
 .navbar-brand {
   font-weight: bold;
   font-size: 1.5rem;
-  color: #fff;
+  color: #ffffff;
 }
 
 .navbar-brand:hover {
@@ -23,13 +23,13 @@ body {
 
 .navbar-nav .nav-link {
   color: #e8f5e9;
-  /* margin-left: 0.75rem; */
+  font-weight: 600;
 }
 
 .navbar-nav .nav-link.active,
 .navbar-nav .nav-link:hover {
   color: #a5d6a7;
-  font-weight: 600;
+  
 }
 
 .navbar img {

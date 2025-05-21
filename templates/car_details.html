@@ -61,28 +61,7 @@
     <p><span class="label">Rate:</span> ${{ "%.2f"|format(element.rate) }}</p>
     <p><span class="label">Campus Location:</span> {{ element.campus.name }}</p>
     <p><span class="label">Milage:</span> {{ element.milage }} km</p>
-    <!-- <div
-      style="
-        border-radius: 5px;
-        background-color: #dcedc8;
-        color: #33691e;
-        padding: 1.5rem;
-        margin: auto;
-      "
-    >
-      <span class="label">Availability:</span>
 
-      {% if element.rental == None %} Available
-    </div>
-    <br />
-    <form action="{{ url_for('rent_car', id=element.id) }}" method="post">
-      <button class="rental" type="submit">Rent</button>
-    </form>
-    {% else %} Unavailable
-    <br />
-
-    {% endif %}
-  </div> -->
 
 
   {% if element.rental == None %}
@@ -98,8 +77,8 @@
     </form>
 {% else %}
     <p style="border-radius: 5px;
-              background-color: #dcedc8;
-              color: #33691e;
+              background-color: #edcfc8;
+              color: #69211e;
               padding: 1rem;
               margin-top: 0.5rem;">
         <span class="label">Availability:</span> Unavailable

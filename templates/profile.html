@@ -14,7 +14,7 @@
             {% if user.rental %}
             <div class="card mt-4 p-4 shadow-sm" style="background-color: #f5ede4;">
                 <h4 class="mb-3">Current Rental</h4>
-                <img src="/static/images/default_car.jpg" class="img-fluid mb-3" alt="{{ user.rental.car.model }} image">
+                <img src="{{ image_url }}"  class="img-fluid mb-3" alt="{{ user.rental.car.model }} image">
                 <h5>{{ user.rental.car.brand.name }} {{ user.rental.car.model }} ({{ user.rental.car.year }})</h5>
 
                 <p><strong>Brand:</strong> {{ user.rental.car.brand.name }}</p>
