@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, flash, session, request
 from pathlib import Path
 from db import db
-from my_models import Car, Rental, Campus, CarType, User
+from my_models import Car, Rental, Campus, CarType, User, Brand
 from auth_decorator import login_required
 from dotenv import load_dotenv
 
@@ -61,11 +61,18 @@ def home():
 
 @app.route("/cars")
 def cars():
-    sort = request.args.get("sort", "name")
+    search = request.args.get("search", "")
+    sort = request.args.get("sort", "type")
     order = request.args.get("order", "asc")
 
     statement_car = db.select(Car)
 
+    if search:
+        statement_car = statement_car.where(
+            Car.model.ilike(f"%{search}%") | 
+            Car.brand.has(Brand.name.ilike(f"%{search}%")) |
+            Car.carType.has(CarType.name.ilike(f"%{search}%"))
+        )
 
     if sort == "rate": 
         statement_car = statement_car.order_by(Car.rate.desc() if order == "desc" else Car.rate.asc())
@@ -73,15 +80,13 @@ def cars():
         statement_car = statement_car.join(Car.carType).order_by(CarType.name.desc() if order == "desc" else CarType.name.asc())
     elif sort == "location": 
         statement_car = statement_car.join(Car.campus).order_by(
-        Campus.name.desc() if order == "desc" else Campus.name.asc()
-    )
-
-
-
+            Campus.name.desc() if order == "desc" else Campus.name.asc()
+        )
 
     results = db.session.execute(statement_car)
+    cars = results.scalars().all()
 
-    return render_template("cars.html", my_list= [prod for prod in results.scalars()], sort_by=sort, order=order)
+    return render_template("cars.html", my_list=cars, sort_by=sort, order=order, search=search)
 
 @app.route("/cars/<int:id>")
 def car_details(id):
@@ -89,7 +94,15 @@ def car_details(id):
     result = db.session.execute(statement_car).scalar()
     if not result:
         return render_template("error.html", message="order not found"), 404
-    return render_template("car_details.html", element = result)
+    
+    filename = f"{result.model}_{result.year}_{result.color}.png".replace(" ", "").lower()
+    filepath = os.path.join("static", "images", filename)
+
+    
+    image_url = f"/static/images/{filename}" if os.path.exists(filepath) else "/static/images/default_car.jpg"
+
+
+    return render_template("car_details.html", element = result, image_url=image_url)
 
 @app.route("/cars/<int:id>/complete", methods=["POST"])
 def rent_car(id):
@@ -97,25 +110,34 @@ def rent_car(id):
     result = db.session.execute(statement_car).scalar()
     if not result:
         return render_template("error.html", message="order not found"), 404
-    
+
+   
+    filename = f"{result.model}_{result.year}_{result.color}.png".replace(" ", "").lower()
+    filepath = os.path.join("static", "images", filename)
+    image_url = f"/static/images/{filename}" if os.path.exists(filepath) else "/static/images/default_car.jpg"
+
     user_id = session.get("user_id")
     if not user_id:
         return redirect(url_for("login"))
-    
+
     usr_stmt = db.select(User).where(User.id == user_id)
     user = db.session.execute(usr_stmt).scalar()
 
-
     if user:
-        active_rental_stmt = db.select(Rental).where(Rental.user_id == user.id, Rental.return_date == None)
+        active_rental_stmt = db.select(Rental).where(
+            Rental.user_id == user.id, Rental.return_date == None
+        )
         active_rental = db.session.execute(active_rental_stmt).scalar()
         if active_rental:
-            flash("You already have an active rental. Return it before renting another car.")
-            return render_template("car_details.html", element=result)
+            flash("You already have an active rental. Return it before renting another car.", "danger")
+            return render_template("car_details.html", element=result, image_url=image_url)
+
         result.makeRental(user)
-        return render_template("car_details.html", element = result)
+        flash("Car has been rented!", "success")
+        return render_template("car_details.html", element=result, image_url=image_url)
     else:
         return render_template("error.html")
+
 
  
    
@@ -224,7 +246,15 @@ def signup_post():
 
     statement_login = db.select(User).where(User.email == email)
     result = db.session.execute(statement_login).scalar()
-
+    if "@" not in email:
+        flash('Email is not valid.')
+        return render_template('signup.html')
+    
+    has_letter = any(c.isalpha() for c in password)
+    has_digit = any(c.isdigit() for c in password)
+    if len(password) < 8 or not has_letter or not has_digit:
+        flash('Password must be at least 8 characters and include both letters and numbers.')
+        return render_template('signup.html')
     if not result:
         
         newuser = User(username=name, email=email, password=password)
@@ -236,7 +266,7 @@ def signup_post():
 
         return redirect(url_for("profile"))
     flash('A user with that email already exists.')
-    return redirect(url_for('signup'))
+    return render_template('signup.html')
 
 
 @app.route("/logout")
@@ -255,25 +285,41 @@ def profile():
     
     usr_stmt = db.select(User).where(User.id == user_id)
     user = db.session.execute(usr_stmt).scalar()
+
+    image_url = None
+    if user and user.rental:
+        model = user.rental.car.model.replace(" ", "").lower()
+        year = str(user.rental.car.year)
+        color = user.rental.car.color.replace(" ", "").lower()
+
+        filename = f"{model}_{year}_{color}.png"
+        filepath = os.path.join("static", "images", filename)
+
+        if os.path.exists(filepath):
+            image_url = url_for("static", filename=f"images/{filename}")
+        else:
+            image_url = url_for("static", filename="images/default_car.jpg")
+
     if user:
-        return render_template("profile.html", user=user)
+        return render_template("profile.html", user=user, image_url=image_url)
     else:
         return render_template("error.html")
 
 
-@app.route("/profile",  methods=["POST"])
+
+@app.route("/profile", methods=["POST"])
 def profile_post():
     user_id = session.get("user_id")
     if not user_id:
         return redirect(url_for("login"))
-    
+
     usr_stmt = db.select(User).where(User.id == user_id)
     user = db.session.execute(usr_stmt).scalar()
-    if user:
+
+    if user and user.rental:
         user.rental.car.removeRental(user)
-        return render_template("profile.html", user=user)
-    else:
-        return render_template("error.html")
+
+    return redirect(url_for("profile"))
 
 
 

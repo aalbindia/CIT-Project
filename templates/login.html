@@ -3,56 +3,50 @@
 
 {% block content %}
 
-<div class="container mt-3">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-6">
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-              {{ message }}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
+    <div class="col-md-6 col-lg-5">
+      <h3 class="title text-center text-white mb-4">Login</h3>
+      <div class="box">
+        <form method="POST" action="/login">
+          <div class="form-group">
+            <input class="form-control form-control-lg" type="email" name="email" placeholder="Your Email" autofocus required>
+          </div>
+
+          <div class="form-group">
+            <input class="form-control form-control-lg" type="password" name="password" placeholder="Your Password" required>
+          </div>
+
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" name="remember" >
+            <label class="form-check-label">Remember me</label>
+          </div>
+
+          <button class="btn btn-info btn-lg btn-block">Login</button>
+        </form>
+
+        <hr class="my-4">
+        <div class="text-center">
+          <p class="mb-3">Or</p>
+          <a href="{{ url_for('google_login') }}" class="btn btn-danger btn-block mb-2">
+            <i class="fab fa-google mr-2"></i> Login with Google
+          </a>
+          <a href="{{ url_for('github_login') }}" class="btn btn-secondary btn-block">
+            <i class="fab fa-github mr-2"></i> Login with GitHub
+          </a>
+          <p class="mb-3">Don’t have an account yet? Sign up now</p>
+          <a href="{{ url_for('signup') }}" class="btn btn-success btn-block">
+             Sign Up
+          </a>
+
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="container has-text-centered">
-    <div style="margin-left: 40%;">
-        <h3 class="title">Login</h3>
-        <div class="box">
-            <form method="POST" action="/login">
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
-                    </div>
-                </div>
 
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="password" name="password" placeholder="Your Password">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="checkbox">
-                        <input type="checkbox" name="remember">
-                        Remember me
-                    </label>
-                </div>
-                <button class="button is-block is-info is-large is-fullwidth">Login</button>
-            </form>
-            <p>Or</p>
-            <a href="{{ url_for('google_login') }}">Login with Google</a>
-            <p></p>
-            <a href="{{ url_for('github_login') }}">Login with GitHub</a>
-            <p></p>
-            <a href="{{ url_for('signup') }}">Sign up</a>
-        </div>
-    </div>
-</div>
+
 {% endblock %}

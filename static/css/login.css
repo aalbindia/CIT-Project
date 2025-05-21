@@ -1,0 +1,71 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #2f3e2e;
+  background: linear-gradient(to right, #a5d6a7, #81d4fa);
+  margin: 0;
+  padding: 0;
+}
+.container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+h3.title {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); 
+}
+
+
+.box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+.input.is-large {
+  border-radius: 8px;
+  border: 1px solid #b5cbb7;
+  padding: 1rem;
+  background-color: #fafff4;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.input.is-large:focus {
+  border-color: #6db26a;
+  box-shadow: 0 0 0 3px rgba(109, 178, 106, 0.2);
+}
+
+.checkbox input {
+  accent-color: #6db26a;
+}
+
+.checkbox {
+  font-size: 0.95rem;
+  color: #4a5c47;
+}
+
+.button.is-info {
+  background-color: #6db26a;
+  border-color: #6db26a;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.button.is-info:hover {
+  background-color: #5ca25c;
+  border-color: #5ca25c;
+}
+
+@media screen and (max-width: 768px) {
+  .column.is-4.is-offset-4 {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
