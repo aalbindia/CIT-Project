@@ -89,7 +89,15 @@ def car_details(id):
     result = db.session.execute(statement_car).scalar()
     if not result:
         return render_template("error.html", message="order not found"), 404
-    return render_template("car_details.html", element = result)
+    
+    filename = f"{result.model}_{result.year}_{result.color}.png".replace(" ", "").lower()
+    filepath = os.path.join("static", "images", filename)
+
+    
+    image_url = f"/static/images/{filename}" if os.path.exists(filepath) else "/static/images/default_car.jpg"
+
+
+    return render_template("car_details.html", element = result, image_url=image_url)
 
 @app.route("/cars/<int:id>/complete", methods=["POST"])
 def rent_car(id):

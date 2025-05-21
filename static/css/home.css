@@ -99,11 +99,13 @@ h3 {
 .button.is-success {
   border-color: #4caf50;
   color: #fff;
-  margin-left: 745;
   background-color: #6db26a;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(47, 61, 46, 0.08);
-  padding: 10;
+  padding: 10px 20px;
+  display: block;
+  width: fit-content;
+  margin: 0 auto; /* This centers it horizontally */
 }
 
 .button.is-success:hover {

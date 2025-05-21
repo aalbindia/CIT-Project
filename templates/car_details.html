@@ -53,7 +53,7 @@
   <div class="car-info" style="background-color: #f5ede4">
     <a href="{{ url_for('cars') }}" class="btn btn-secondary">← Back</a>
 
-    <img src="/static/images/default_car.jpg" alt="{{ element.model }} image" />
+    <img src="{{ image_url }}" alt="{{ element.model }} image"style="width: 500px; height: 400px; object-fit: contain;" />
     <h2>{{ element.brand.name }} {{ element.model }} ({{ element.year }})</h2>
     <p><span class="label">Brand:</span> {{ element.brand.name }}</p>
     <p><span class="label">Type:</span> {{ element.carType.name }}</p>
