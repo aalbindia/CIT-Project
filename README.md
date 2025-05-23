@@ -1,6 +1,6 @@
 # 🚗 BCIT GreenRide — Eco-Friendly Car Rental Platform
 
-**GreenRide** is a web-based car rental application designed for post-secondary students. It offers a simple, user-friendly interface to browse, rent, and manage eco-friendly vehicles across campus locations. Built using **Flask**, **SQLAlchemy**, and **OAuth authentication**, the platform focuses on seamless usability and clear accountability.
+**GreenRide** is a web-based car rental application designed for BCIT students and faculty. It offers a simple, user-friendly interface to browse, rent, and manage eco-friendly vehicles across campus locations. Built using **Flask**, **SQLAlchemy**, and **OAuth authentication**, the platform focuses on seamless usability and clear accountability.
 
 ## ✨ Key Features
 
