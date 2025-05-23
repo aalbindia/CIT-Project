@@ -26,6 +26,81 @@ def create_app(config_name='default'):
 
     db.init_app(app)
 
+    from routes.signup import signup_bp
+    from routes.login import login_bp
+    from routes.profile import profile_bp
+
+    app.register_blueprint(signup_bp)
+    app.register_blueprint(login_bp)
+    app.register_blueprint(profile_bp)
+
+
+    @app.route("/google-login")
+    def google_login():
+        redirect_uri = url_for("google_authorize", _external=True)
+        return google.authorize_redirect(redirect_uri)
+
+
+    @app.route("/google-authorize")
+    def google_authorize():
+        token = google.authorize_access_token()
+        resp = google.get("userinfo")
+        user_info = resp.json()
+        email = user_info["email"]
+
+        statement = db.select(User).where(User.email == email)
+        user = db.session.execute(statement).scalar()
+
+        if not user:
+            chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+            random_string = ''.join(random.choices(chars, k=10))
+            name = user_info["name"]
+            user = User(email=email, password=random_string, username=name)
+            db.session.add(user)
+            db.session.commit()
+
+        session["user_id"] = user.id
+        session.permanent = True
+        return redirect(url_for("profile_bp.profile"))
+
+
+
+    @app.route("/github-login")
+    def github_login():
+        redirect_uri = url_for("github_authorize", _external=True)
+        return github.authorize_redirect(redirect_uri)
+
+    @app.route("/github-authorize")
+    def github_authorize():
+        token = github.authorize_access_token()
+        resp = github.get("user")  
+        user_info = resp.json()
+
+        email = user_info.get("email")
+        if not email:
+            email_resp = github.get("user/emails")
+            emails = email_resp.json()
+            primary_emails = [e for e in emails if e.get("primary") and e.get("verified")]
+            if primary_emails:
+                email = primary_emails[0].get("email")
+
+        name = user_info.get("name") or user_info.get("login")
+
+        statement = db.select(User).where(User.email == email)
+        user = db.session.execute(statement).scalar()
+        if not user:
+            chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+            random_string = ''.join(random.choices(chars, k=10))
+
+            user = User(email=email, name=name, password=random_string)
+            db.session.add(user)
+            db.session.commit()
+
+        session["user_id"] = user.id
+        session.permanent = True
+        return redirect(url_for("profile_bp.profile"))
+
+    
 
     return app
 
@@ -118,7 +193,7 @@ def rent_car(id):
 
     user_id = session.get("user_id")
     if not user_id:
-        return redirect(url_for("login"))
+        return redirect(url_for("login_bp.login"))
 
     usr_stmt = db.select(User).where(User.id == user_id)
     user = db.session.execute(usr_stmt).scalar()
@@ -143,183 +218,19 @@ def rent_car(id):
    
      
 
-@app.route("/login")
-def login():
-    return render_template("login.html")
-
-@app.route("/login", methods=["POST"])
-def login_post():
-    email = request.form.get("email")
-    password = request.form.get("password")
-
-    statement_login = db.select(User).where(User.email == email)
-    result = db.session.execute(statement_login).scalar()
-
-    if result:
-   
-        if result.password == password:
-            session["user_id"] = result.id
-            return redirect(url_for("profile"))
-    
-    flash('Please check your login details and try again.', "danger")
-    return redirect(url_for('login'))
-        
-
-@app.route("/google-login")
-def google_login():
-    redirect_uri = url_for("google_authorize", _external=True)
-    return google.authorize_redirect(redirect_uri)
-
-
-@app.route("/google-authorize")
-def google_authorize():
-    token = google.authorize_access_token()
-    resp = google.get("userinfo")
-    user_info = resp.json()
-    email = user_info["email"]
-
-    statement = db.select(User).where(User.email == email)
-    user = db.session.execute(statement).scalar()
-
-    if not user:
-        chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-        random_string = ''.join(random.choices(chars, k=10))
-        name = user_info["name"]
-        user = User(email=email, password=random_string, username=name)
-        db.session.add(user)
-        db.session.commit()
-
-    session["user_id"] = user.id
-    session.permanent = True
-    return redirect(url_for("profile"))
 
 
 
-@app.route("/github-login")
-def github_login():
-    redirect_uri = url_for("github_authorize", _external=True)
-    return github.authorize_redirect(redirect_uri)
 
-@app.route("/github-authorize")
-def github_authorize():
-    token = github.authorize_access_token()
-    resp = github.get("user")  
-    user_info = resp.json()
-
-    email = user_info.get("email")
-    if not email:
-        email_resp = github.get("user/emails")
-        emails = email_resp.json()
-        primary_emails = [e for e in emails if e.get("primary") and e.get("verified")]
-        if primary_emails:
-            email = primary_emails[0].get("email")
-
-    name = user_info.get("name") or user_info.get("login")
-
-    statement = db.select(User).where(User.email == email)
-    user = db.session.execute(statement).scalar()
-    if not user:
-        chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-        random_string = ''.join(random.choices(chars, k=10))
-
-        user = User(email=email, name=name, password=random_string)
-        db.session.add(user)
-        db.session.commit()
-
-    session["user_id"] = user.id
-    session.permanent = True
-    return redirect(url_for("profile"))
-
-
-@app.route("/signup")
-def signup():
-
-
-    return render_template("signup.html")
-
-
-@app.route("/signup", methods=["POST"])
-def signup_post():
-    email = request.form.get("email")
-    password = request.form.get("password")
-    name = request.form.get("name")
-
-    statement_login = db.select(User).where(User.email == email)
-    result = db.session.execute(statement_login).scalar()
-    if "@" not in email:
-        flash('Email is not valid.')
-        return render_template('signup.html')
-    
-    has_letter = any(c.isalpha() for c in password)
-    has_digit = any(c.isdigit() for c in password)
-    if len(password) < 8 or not has_letter or not has_digit:
-        flash('Password must be at least 8 characters and include both letters and numbers.')
-        return render_template('signup.html')
-    if not result:
-        
-        newuser = User(username=name, email=email, password=password)
-        db.session.add(newuser)
-        db.session.commit()
-
-        session["user_id"] = newuser.id
-        session.permanent = True
-
-        return redirect(url_for("profile"))
-    flash('A user with that email already exists.')
-    return render_template('signup.html')
 
 
 @app.route("/logout")
 def logout():
     session.clear()
     flash("You have been logged out.")
-    return redirect(url_for("login"))
+    return redirect(url_for("login_bp.login"))
 
 
-
-@app.route("/profile")
-def profile():
-    user_id = session.get("user_id")
-    if not user_id:
-        return redirect(url_for("login"))
-    
-    usr_stmt = db.select(User).where(User.id == user_id)
-    user = db.session.execute(usr_stmt).scalar()
-
-    image_url = None
-    if user and user.rental:
-        model = user.rental.car.model.replace(" ", "").lower()
-        year = str(user.rental.car.year)
-        color = user.rental.car.color.replace(" ", "").lower()
-
-        filename = f"{model}_{year}_{color}.png"
-        filepath = os.path.join("static", "images", filename)
-
-        if os.path.exists(filepath):
-            image_url = url_for("static", filename=f"images/{filename}")
-        else:
-            image_url = url_for("static", filename="images/default_car.jpg")
-
-    if user:
-        return render_template("profile.html", user=user, image_url=image_url)
-    else:
-        return render_template("error.html")
-
-
-
-@app.route("/profile", methods=["POST"])
-def profile_post():
-    user_id = session.get("user_id")
-    if not user_id:
-        return redirect(url_for("login"))
-
-    usr_stmt = db.select(User).where(User.id == user_id)
-    user = db.session.execute(usr_stmt).scalar()
-
-    if user and user.rental:
-        user.rental.car.removeRental(user)
-
-    return redirect(url_for("profile"))
 
 
 
