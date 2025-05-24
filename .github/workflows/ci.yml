@@ -1,4 +1,6 @@
 name: Python CI
+env:
+  APP_SECRET_KEY: "testing-secret-key"
 
 on:
   push:
