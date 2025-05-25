@@ -24,12 +24,12 @@
             <label class="form-check-label">Remember me</label>
           </div>
 
-          <button class="btn btn-info btn-lg btn-block">Login</button>
+          <button class="btn btn-success btn-lg btn-block">Login</button>
         </form>
 
         <hr class="my-4">
         <div class="text-center">
-          <p class="mb-3">Or</p>
+          <h6 >Or</h6>
           <a href="{{ url_for('google_login') }}" class="btn btn-danger btn-block mb-2">
             <i class="fab fa-google mr-2"></i> Login with Google
           </a>
@@ -37,7 +37,7 @@
             <i class="fab fa-github mr-2"></i> Login with GitHub
           </a>
           <p class="mb-3">Don’t have an account yet? Sign up now</p>
-          <a href="{{ url_for('signup') }}" class="btn btn-success btn-block">
+          <a href="{{ url_for('signup_bp.signup') }}" class="btn btn-success btn-block">
              Sign Up
           </a>
 
